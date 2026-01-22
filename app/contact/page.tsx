@@ -238,7 +238,7 @@ export default function ContactPage() {
   const [segment, setSegment] = useState<SegmentKey>("pme");
   const [name, setName] = useState("");
   const [mail, setMail] = useState("");
-  const [country, setCountry] = useState<string>("MG"); // défaut Madagascar
+  const [country, setCountry] = useState<string>("choisir");
   const [goal, setGoal] = useState("");
   const [message, setMessage] = useState("");
 
@@ -323,7 +323,7 @@ export default function ContactPage() {
             transition={reduce ? { duration: 0 } : { duration: 0.55, ease: "easeOut" }}
           >
             <p className="inline-flex items-center rounded-full border border-neutral-200 bg-white px-3 py-1 text-xs font-semibold text-neutral-700">
-              Contact rapide • devis clair
+              Contact rapide 
               <span className="ml-2 inline-flex h-2 w-2 rounded-full bg-red-600" />
             </p>
 

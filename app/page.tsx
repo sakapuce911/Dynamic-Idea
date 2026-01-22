@@ -288,7 +288,7 @@ export default function HomePage() {
               }
               className="mt-8 grid grid-cols-3 gap-4 text-sm"
             >
-              <InfoCard label="Zone" value="MDG & MU" />
+              <InfoCard label="Nos équipes" value="MDG & MU" />
               <InfoCard label="Support" value="WhatsApp + Email" />
               <InfoCard label="Objectif" value="Visibilité & Conversion" />
             </motion.div>
@@ -480,7 +480,7 @@ export default function HomePage() {
               <div>
                 <p className="text-lg font-bold">Commander en 1 minute</p>
                 <p className="mt-1 text-sm text-neutral-700">
-                  WhatsApp : ton besoin + ton pays (MDG/MU).
+                  WhatsApp : l'offre + ton objectif.
                 </p>
               </div>
               <a
@@ -876,7 +876,7 @@ function TriggerCard() {
       </motion.a>
 
       <p className="mt-2 text-center text-xs text-neutral-500">
-        Réponse rapide • Devis clair • MDG & MU
+        Réponse rapide • Devis clair
       </p>
     </motion.div>
   );
