@@ -1,0 +1,8 @@
+/* File: dynamic-idea/app/globals.css */
+@import "tailwindcss";
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
