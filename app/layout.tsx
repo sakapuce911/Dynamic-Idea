@@ -6,12 +6,23 @@ export const metadata: Metadata = {
   title: "Dynamic Idea — Agence marketing",
   description:
     "Dynamic Idea — Outils Pro + stratégie marketing pour convertir plus (Madagascar & Mauritius).",
+
+  applicationName: "Dynamic Idea",
+
+  // ✅ PWA
+  manifest: "/manifest.webmanifest",
+
+  // ✅ Icônes (favicon + iOS)
   icons: {
-    icon: [
-      { url: "/favicon.ico" },
-      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
-      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
-    ],
+    icon: [{ url: "/favicon.ico" }], // si tu as /public/favicon.ico
+    apple: [{ url: "/apple-icon.png" }], // auto via app/apple-icon.png
+  },
+
+  // ✅ Bonus iOS (optionnel mais utile)
+  appleWebApp: {
+    capable: true,
+    title: "Dynamic Idea",
+    statusBarStyle: "default",
   },
 };
 
