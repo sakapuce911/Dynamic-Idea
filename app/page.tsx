@@ -12,6 +12,7 @@ import {
 } from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
 import AvisClients from "@/src/components/AvisClients";
+import BlogSection from "@/src/components/BlogSection";
 import { supabase } from "@/src/lib/supabaseClient";
 
 const WHATSAPP_NUMBER = "23057261909";
@@ -172,6 +173,9 @@ export default function HomePage() {
             </a>
             <a href="#process" className="text-sm hover:text-red-600">
               Process
+            </a>
+            <a href="#blog" className="text-sm hover:text-red-600">
+              Blog
             </a>
             <a href="#avis" className="text-sm hover:text-red-600">
               Avis clients
@@ -649,6 +653,11 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ✅ BLOG (aperçu) */}
+      <section id="blog" className="border-t border-neutral-200 bg-white">
+        <BlogSection />
+      </section>
+
       {/* ✅ Avis (Supabase + Motion + rotation 30s en blocs de 6) */}
       <section id="avis" className="border-t border-neutral-200 bg-white">
         <AvisClients />
@@ -662,14 +671,6 @@ export default function HomePage() {
               >
                 Nous contacter
               </Link>
-              <a
-                href={WHATSAPP_LINK}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex justify-center rounded-full border border-neutral-300 px-6 py-3 text-sm font-semibold hover:border-neutral-400"
-              >
-                WhatsApp
-              </a>
             </div>
           </SoftReveal>
         </div>
@@ -708,11 +709,17 @@ export default function HomePage() {
             <a href="#process" className="hover:text-red-600">
               Process
             </a>
+            <a href="#blog" className="hover:text-red-600">
+              Blog
+            </a>
             <a href="#avis" className="hover:text-red-600">
               Avis
             </a>
             <Link href="/contact" className="hover:text-red-600">
               Contact
+            </Link>
+            <Link href="/blog" className="hover:text-red-600">
+              Blog
             </Link>
           </div>
 
