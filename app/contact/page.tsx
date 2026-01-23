@@ -379,7 +379,7 @@ export default function ContactPage() {
             transition={reduce ? { duration: 0 } : { duration: 0.65, ease: "easeOut", delay: 0.08 }}
             className="relative"
           >
-            <FloatingChip className="absolute -top-4 left-6" label="Audit (10 min) offert" />
+            <FloatingChip className="absolute -top-4 left-6" label="Audit (30 min) offert" />
             <FloatingChip className="absolute top-16 -right-4" label="Devis clair" />
             <FloatingChip className="absolute bottom-8 -left-4" label="Action rapide" />
 

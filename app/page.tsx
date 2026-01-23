@@ -235,8 +235,8 @@ export default function HomePage() {
               Boostez votre <span className="text-red-600">branding</span>
               <br />
               et votre contenu <br />
-              avec des <span className="text-red-600">outils Pro</span> + une
-              stratégie simple.
+              avec des <span className="text-red-600">outils Pro</span> +
+              stratégie éfficace.
             </motion.h1>
 
             <motion.p
@@ -567,7 +567,7 @@ export default function HomePage() {
                       On valide ta meilleure option en 3 questions.
                     </p>
                     <p className="mt-1 text-white/80">
-                      Profil • Objectif • Pays (MDG/MU) → devis rapide WhatsApp.
+                      Profil • Objectif → devis rapide WhatsApp.
                     </p>
                   </div>
                   <a
@@ -922,7 +922,7 @@ function TriggerCard() {
     >
       <p className="font-semibold">On commence quand ?</p>
       <p className="mt-1 text-sm text-neutral-700">
-        Audit de votre présence actuelle (10 min) offert via WhatsApp.
+        Audit de votre présence actuelle (30 min) offert via WhatsApp.
       </p>
 
       <motion.a
