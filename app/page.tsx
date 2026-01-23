@@ -10,7 +10,9 @@ import {
   useScroll,
   useTransform,
 } from "framer-motion";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import AvisClients from "@/src/components/AvisClients";
+import { supabase } from "@/src/lib/supabaseClient";
 
 const WHATSAPP_NUMBER = "23057261909";
 const EMAIL = "dynamicbusiness.idea@gmail.com";
@@ -31,6 +33,15 @@ const fadeUp = {
 const stagger = {
   hidden: {},
   show: { transition: { staggerChildren: 0.09 } },
+};
+
+type AvisClient = {
+  id: string;
+  nom: string;
+  avis: string;
+  note: number | null;
+  actif: boolean;
+  created_at: string;
 };
 
 function SoftReveal({
@@ -210,7 +221,7 @@ export default function HomePage() {
               }
               className="inline-flex items-center rounded-full border border-neutral-200 bg-white px-3 py-1 text-xs font-semibold text-neutral-700"
             >
-              Agence marketing 
+              Agence marketing
               <span className="ml-2 inline-flex h-2 w-2 rounded-full bg-red-600" />
             </motion.p>
 
@@ -444,7 +455,8 @@ export default function HomePage() {
           <SoftReveal>
             <h2 className="text-3xl font-extrabold">Prix (outil unitaire)</h2>
             <p className="mt-2 max-w-2xl text-neutral-700">
-              Les solutions marketing personnalisées sont <strong>sur devis</strong>.
+              Les solutions marketing personnalisées sont{" "}
+              <strong>sur devis</strong>.
             </p>
           </SoftReveal>
 
@@ -504,7 +516,8 @@ export default function HomePage() {
               Choisis ton profil → on te donne la bonne solution
             </h2>
             <p className="mt-2 max-w-3xl text-neutral-700">
-              Pas de pack au hasard : on adapte selon <strong>ta réalité</strong>, ton objectif et ton budget.
+              Pas de pack au hasard : on adapte selon{" "}
+              <strong>ta réalité</strong>, ton objectif et ton budget.
             </p>
           </SoftReveal>
 
@@ -628,42 +641,13 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Avis */}
+      {/* ✅ Avis (Supabase + Motion + rotation 30s en blocs de 6) */}
       <section id="avis" className="border-t border-neutral-200 bg-white">
-        <div className="mx-auto w-full max-w-6xl px-4 py-14">
-          <SoftReveal>
-            <h2 className="text-3xl font-extrabold">Avis clients</h2>
-            <p className="mt-2 max-w-2xl text-neutral-700">
-              Retours orientés résultat (visibilité, messages, ventes).
-            </p>
-          </SoftReveal>
+        <AvisClients />
 
-          <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-3">
-            <SoftReveal delay={0.05}>
-              <Testimonial
-                name="Aina"
-                title="Boutique (MDG)"
-                quote="Offre clarifiée + visuels refaits. Plus de messages WhatsApp, ventes plus rapides."
-              />
-            </SoftReveal>
-            <SoftReveal delay={0.1}>
-              <Testimonial
-                name="Sarah"
-                title="Personal branding"
-                quote="Avec le plan, je publie sans stress et j’ai plus d’engagement."
-              />
-            </SoftReveal>
-            <SoftReveal delay={0.15}>
-              <Testimonial
-                name="Kevin"
-                title="Projet web"
-                quote="Maquettes Figma propres et cohérentes. Gain de temps énorme côté dev."
-              />
-            </SoftReveal>
-          </div>
-
+        <div className="mx-auto w-full max-w-6xl px-4 pb-14">
           <SoftReveal delay={0.05}>
-            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/contact"
                 className="inline-flex justify-center rounded-full bg-red-600 px-6 py-3 text-sm font-semibold text-white hover:bg-red-700"
@@ -742,9 +726,64 @@ function InfoCard({ label, value }: { label: string; value: string }) {
   );
 }
 
-/* ✅ ÉTAGE 2 : Preuve sociale (sexy + léger) */
+/* ✅ ÉTAGE 2 : Preuve sociale (Hero) — maintenant depuis Supabase + rotation 10s */
 function ProofSocialCard() {
   const reduce = useReducedMotion();
+
+  const [avis, setAvis] = useState<AvisClient[]>([]);
+  const [index, setIndex] = useState(0);
+
+  const timerRef = useRef<number | null>(null);
+
+  const avisActuel = useMemo(() => {
+    if (!avis.length) return null;
+    return avis[index % avis.length];
+  }, [avis, index]);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    async function chargerAvisHero() {
+      const { data, error } = await supabase
+        .from("avis_clients")
+        .select("id, nom, avis, note, actif, created_at")
+        .eq("actif", true)
+        .order("created_at", { ascending: false });
+
+      if (!isMounted) return;
+
+      if (!error && data) {
+        setAvis(data as AvisClient[]);
+        setIndex(0);
+      }
+    }
+
+    chargerAvisHero();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (timerRef.current) window.clearInterval(timerRef.current);
+
+    // Rotation toutes les 10 secondes seulement si on a plusieurs avis
+    if (avis.length <= 1) return;
+
+    timerRef.current = window.setInterval(() => {
+      setIndex((prev) => prev + 1);
+    }, 10000);
+
+    return () => {
+      if (timerRef.current) window.clearInterval(timerRef.current);
+    };
+  }, [avis.length]);
+
+  const fallbackQuote =
+    "Image plus pro + contenus réguliers. Résultat : plus de demandes qualifiées sur WhatsApp.";
+  const fallbackName = "Jérôme";
+
   return (
     <motion.div
       whileHover={reduce ? undefined : { y: -2 }}
@@ -754,19 +793,43 @@ function ProofSocialCard() {
       <div className="flex items-start justify-between gap-3">
         <div>
           <p className="font-semibold">Ils ont vu la différence</p>
-          <p className="mt-1 text-sm text-neutral-700 italic">
-            “Image plus pro + contenus réguliers. Résultat : plus de demandes
-            qualifiées sur WhatsApp.”
-          </p>
+
+          {/* ✅ Avis Supabase qui change toutes les 10s */}
+          <AnimatePresence mode="wait">
+            <motion.p
+              key={avisActuel?.id ?? "fallback"}
+              className="mt-1 text-sm text-neutral-700 italic"
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={reduce ? { duration: 0 } : { duration: 0.28, ease: "easeOut" }}
+            >
+              “{avisActuel?.avis ?? fallbackQuote}”
+            </motion.p>
+          </AnimatePresence>
         </div>
+
+        {/* ✅ Seulement les 5 étoiles affichées ici */}
         <Stars />
       </div>
 
       <div className="mt-3 flex items-center gap-3">
-        <AvatarBubble initials="JB" />
+        <AvatarBubble initials={(avisActuel?.nom ?? fallbackName).slice(0, 2).toUpperCase()} />
         <div>
-          <p className="text-sm font-bold">Jérôme</p>
-          <p className="text-xs text-neutral-600">Gérant PME • Madagascar</p>
+          <AnimatePresence mode="wait">
+            <motion.p
+              key={`nom-${avisActuel?.id ?? "fallback"}`}
+              className="text-sm font-bold"
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={reduce ? { duration: 0 } : { duration: 0.25, ease: "easeOut" }}
+            >
+              {avisActuel?.nom ?? fallbackName}
+            </motion.p>
+          </AnimatePresence>
+
+          <p className="text-xs text-neutral-600">Client • Madagascar</p>
         </div>
       </div>
     </motion.div>
@@ -1219,6 +1282,7 @@ function ProcessCard({
   );
 }
 
+/* (Conservé au cas où tu l'utilises ailleurs) */
 function Testimonial({
   name,
   title,
