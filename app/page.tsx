@@ -22,7 +22,7 @@ const WHATSAPP_LINK =
   WHATSAPP_NUMBER +
   "?text=" +
   encodeURIComponent(
-    "Bonjour Dynamic Idea ! Je suis à Madagascar/Mauritius. Mon profil : (Individuel / PME / B2B). Mon objectif : ... Mon secteur : ... Mon budget : ..."
+    "Bonjour Dynamic Idea ! Mon profil : (Individuel / PME / B2B). Mon objectif : ... Mon secteur : ... Mon pays : ... Mon budget : ..."
   );
 
 const fadeUp = {
@@ -107,8 +107,7 @@ export default function HomePage() {
       },
       pme: {
         badge: "PME",
-        subtitle:
-          "E-commerce • Magasins • Restaurants • Artisans • Cliniques",
+        subtitle: "E-commerce • Magasins • Restaurants • Artisans • Cliniques",
         title: "Ads + Création créative (UGC) qui vend",
         pitch:
           "Les pubs ne marchent pas quand le visuel est mauvais. On fait le duo gagnant : créa + campagne.",
@@ -214,6 +213,7 @@ export default function HomePage() {
             animate="show"
             className="relative z-10"
           >
+            {/* ✅ Badge repositionné (agence + résultats) */}
             <motion.p
               variants={fadeUp}
               transition={
@@ -221,10 +221,11 @@ export default function HomePage() {
               }
               className="inline-flex items-center rounded-full border border-neutral-200 bg-white px-3 py-1 text-xs font-semibold text-neutral-700"
             >
-              Agence marketing
+              Agence marketing orientée résultats
               <span className="ml-2 inline-flex h-2 w-2 rounded-full bg-red-600" />
             </motion.p>
 
+            {/* ✅ H1 orienté performance + outils */}
             <motion.h1
               variants={fadeUp}
               transition={
@@ -232,13 +233,15 @@ export default function HomePage() {
               }
               className="mt-4 text-4xl font-extrabold leading-tight md:text-5xl"
             >
-              Boostez votre <span className="text-red-600">branding</span>
+              Des <span className="text-red-600">résultats</span> concrets,
               <br />
-              et votre contenu <br />
-              avec des <span className="text-red-600">outils Pro</span> +
-              stratégie éfficace.
+              stratégie claire,
+              <br />
+              et des <span className="text-red-600">outils Pro</span> accessibles
+              à tous.
             </motion.h1>
 
+            {/* ✅ Sous-titre clarifie agence + outils (grand public) */}
             <motion.p
               variants={fadeUp}
               transition={
@@ -246,12 +249,16 @@ export default function HomePage() {
               }
               className="mt-4 text-base leading-relaxed text-neutral-700"
             >
-              Dynamic Idea vous aide à produire plus vite, mieux vendre et être
-              plus visible grâce à <strong>Canva Pro</strong>,{" "}
-              <strong>LinkedIn Learning</strong>, <strong>Figma Pro</strong> et
-              un accompagnement marketing orienté résultats.
+              Dynamic Idea accompagne particuliers et entreprises pour{" "}
+              <strong>gagner en visibilité</strong>,{" "}
+              <strong>générer des leads</strong> et{" "}
+              <strong>augmenter les ventes</strong>. En plus, nous proposons au
+              grand public l’accès aux outils professionnels :{" "}
+              <strong>Canva Pro</strong>, <strong>LinkedIn Learning</strong> et{" "}
+              <strong>Figma Pro</strong>.
             </motion.p>
 
+            {/* ✅ CTA plus clair : agence vs outils */}
             <motion.div
               variants={fadeUp}
               transition={
@@ -260,19 +267,19 @@ export default function HomePage() {
               className="mt-7 flex flex-col gap-3 sm:flex-row"
             >
               <a
-                href="#solutions"
-                className="rounded-full bg-red-600 px-6 py-3 text-center text-sm font-semibold text-white hover:bg-red-700"
-              >
-                Voir les solutions
-              </a>
-
-              <a
                 href={WHATSAPP_LINK}
                 target="_blank"
                 rel="noreferrer"
+                className="rounded-full bg-red-600 px-6 py-3 text-center text-sm font-semibold text-white hover:bg-red-700"
+              >
+                Obtenir un audit (WhatsApp)
+              </a>
+
+              <a
+                href="#prix"
                 className="rounded-full border border-neutral-300 px-6 py-3 text-center text-sm font-semibold hover:border-neutral-400"
               >
-                WhatsApp (devis rapide)
+                Voir les outils & prix
               </a>
             </motion.div>
 
@@ -292,6 +299,7 @@ export default function HomePage() {
               </a>
             </motion.p>
 
+            {/* ✅ Micro-preuves : agence (résultats) + outils */}
             <motion.div
               variants={fadeUp}
               transition={
@@ -299,9 +307,9 @@ export default function HomePage() {
               }
               className="mt-8 grid grid-cols-3 gap-4 text-sm"
             >
-              <InfoCard label="Nos équipes" value="MDG & MU" />
+              <InfoCard label="Résultats" value="Leads & ventes" />
+              <InfoCard label="Outils Pro" value="Canva • Figma • LinkedIn" />
               <InfoCard label="Support" value="WhatsApp + Email" />
-              <InfoCard label="Objectif" value="Visibilité & Conversion" />
             </motion.div>
           </motion.div>
 
@@ -357,7 +365,7 @@ export default function HomePage() {
                     <p className="text-xs font-semibold text-neutral-500">
                       Conversion
                     </p>
-                    <p className="mt-1 text-sm font-bold">Clients qualifiés</p>
+                    <p className="mt-1 text-sm font-bold">Leads qualifiés</p>
                   </div>
                   <div className="rounded-xl bg-white p-3">
                     <p className="text-xs font-semibold text-neutral-500">
@@ -726,7 +734,7 @@ function InfoCard({ label, value }: { label: string; value: string }) {
   );
 }
 
-/* ✅ ÉTAGE 2 : Preuve sociale (Hero) — maintenant depuis Supabase + rotation 10s */
+/* ✅ ÉTAGE 2 : Preuve sociale (Hero) — depuis Supabase + rotation 10s */
 function ProofSocialCard() {
   const reduce = useReducedMotion();
 
@@ -768,7 +776,6 @@ function ProofSocialCard() {
   useEffect(() => {
     if (timerRef.current) window.clearInterval(timerRef.current);
 
-    // Rotation toutes les 10 secondes seulement si on a plusieurs avis
     if (avis.length <= 1) return;
 
     timerRef.current = window.setInterval(() => {
@@ -792,9 +799,8 @@ function ProofSocialCard() {
     >
       <div className="flex items-start justify-between gap-3">
         <div>
-          <p className="font-semibold">Ils ont vu la différence</p>
+          <p className="font-semibold">Résultats clients</p>
 
-          {/* ✅ Avis Supabase qui change toutes les 10s */}
           <AnimatePresence mode="wait">
             <motion.p
               key={avisActuel?.id ?? "fallback"}
@@ -802,7 +808,9 @@ function ProofSocialCard() {
               initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -6 }}
-              transition={reduce ? { duration: 0 } : { duration: 0.28, ease: "easeOut" }}
+              transition={
+                reduce ? { duration: 0 } : { duration: 0.28, ease: "easeOut" }
+              }
             >
               “{avisActuel?.avis ?? fallbackQuote}”
             </motion.p>
@@ -814,7 +822,9 @@ function ProofSocialCard() {
       </div>
 
       <div className="mt-3 flex items-center gap-3">
-        <AvatarBubble initials={(avisActuel?.nom ?? fallbackName).slice(0, 2).toUpperCase()} />
+        <AvatarBubble
+          initials={(avisActuel?.nom ?? fallbackName).slice(0, 2).toUpperCase()}
+        />
         <div>
           <AnimatePresence mode="wait">
             <motion.p
@@ -823,13 +833,15 @@ function ProofSocialCard() {
               initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -6 }}
-              transition={reduce ? { duration: 0 } : { duration: 0.25, ease: "easeOut" }}
+              transition={
+                reduce ? { duration: 0 } : { duration: 0.25, ease: "easeOut" }
+              }
             >
               {avisActuel?.nom ?? fallbackName}
             </motion.p>
           </AnimatePresence>
 
-          <p className="text-xs text-neutral-600">Client • Madagascar</p>
+          <p className="text-xs text-neutral-600">Client</p>
         </div>
       </div>
     </motion.div>
@@ -933,7 +945,9 @@ function TriggerCard() {
         initial={{ opacity: 0, y: 6 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.6 }}
-        transition={reduce ? { duration: 0 } : { duration: 0.35, ease: "easeOut" }}
+        transition={
+          reduce ? { duration: 0 } : { duration: 0.35, ease: "easeOut" }
+        }
       >
         Réserver mon audit (WhatsApp)
       </motion.a>
@@ -1217,7 +1231,9 @@ function CheckMark() {
           initial={{ pathLength: 0 }}
           whileInView={{ pathLength: 1 }}
           viewport={{ once: true, amount: 0.6 }}
-          transition={reduce ? { duration: 0 } : { duration: 0.35, ease: "easeOut" }}
+          transition={
+            reduce ? { duration: 0 } : { duration: 0.35, ease: "easeOut" }
+          }
         />
       </svg>
     </motion.span>
@@ -1270,7 +1286,10 @@ function ProcessCard({
           <motion.li
             key={b}
             className="flex gap-2"
-            variants={{ hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0 } }}
+            variants={{
+              hidden: { opacity: 0, y: 8 },
+              show: { opacity: 1, y: 0 },
+            }}
             transition={{ duration: 0.35, ease: "easeOut" }}
           >
             <CheckMark />
